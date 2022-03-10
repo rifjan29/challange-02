@@ -223,7 +223,8 @@ function getInfoPenjualan(dataPenjualan) {
     let resultModal = Intl.NumberFormat('id-ID',
         { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }
       ).format(totalModal);
-    let persenUntung = Math.round(( totalUntung / totalModal ) * 100)
+    // let persenUntung = Math.round(( totalUntung / totalModal ) * 100)
+    let persenUntung = ( totalUntung / totalModal ) * 100
 
     for (let i = 0; i < dataPenjualan.length; i++) {
         if(i == 0){ 
@@ -235,15 +236,35 @@ function getInfoPenjualan(dataPenjualan) {
         }
         
     }
-    let resultData = dataPenjualanNovel.find((a) => a.totalTerjual === totalStok) 
 
-  
+    // mencari penulis terbanyak dan buku terbanyak
+    for (let j = 0; j < dataPenjualan.length; j++) {
+        let resultData = dataPenjualan.filter((a) => a.penulis == dataPenjualan[j].penulis)
+        var dataJumlah = 0
+        for (let test = 0; test < resultData.length; test++) {
+            dataJumlah +=  resultData[test].totalTerjual 
+        }
+        if (dataJumlah > totalStok) {
+            for (let i = 0; i < resultData.length; i++) {
+                if(i == 0){ 
+                      var hasilStok = resultData[i].totalTerjual;
+                }else{
+                    if(resultData[i].totalTerjual > hasilStok){
+                        hasilStok = resultData[i].totalTerjual
+                    }            
+                }
+                
+            }
+        }
+    }
+    let dataTerlaris = dataPenjualan.filter((a) => a.totalTerjual === hasilStok)
+
     const data = {
         totalKeuntungan: result,
         totalModal: resultModal,
-        persentaseKeuntangan: `${persenUntung}%`,
-        produkBukuTerlaris: resultData.namaProduk,
-        penulisTerlaris: resultData.penulis,
+        persentaseKeuntangan: `${persenUntung.toFixed(2)}%`,
+        produkBukuTerlaris: dataTerlaris[0].namaProduk,
+        penulisTerlaris: dataTerlaris[0].penulis,
     }
     return data
 }
