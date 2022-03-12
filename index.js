@@ -99,7 +99,47 @@ console.log(isValidPassword('@Aong11241251'));
 console.log(isValidPassword('Meong2'));
 console.log(isValidPassword(0));
 console.log(isValidPassword());
- 
+//  Tugas 5
+function getSplitName(personName) {
+    if (typeof(personName) == 'string') {
+        var data = personName.split(" ");
+        if (data.length == 3) {
+           
+          data = [{
+              firstName : data[0],
+              middleName : data[1],
+              lastName : data[2]
+          }]
+          return data
+            
+        }else if (data.length == 1){
+            data = [{
+                firstName : data[0],
+                middleName : null,
+                lastName : null
+            }]
+            return data
+        }else if (data.length == 2){
+            data = [{
+                firstName : data[0],
+                middleName : null,
+                lastName : data[1] 
+            }]
+            return data
+        }else{
+            return "Error : this function is only 3 characters"
+        }
+    }else{
+        return "Errror : Invalid data type"
+    }
+}
+console.log(getSplitName("Aldi Daniela Pranata"));
+console.log(getSplitName("Dwi Kuncoro"));
+console.log(getSplitName("Aurora"));
+console.log(getSplitName("Aurora Aureliya Sukma Darma"));
+console.log(getSplitName(0));
+
+
 // Tugas 6
 function getAngkatTerbesarKedua(personName) {
     if (personName != null) {
